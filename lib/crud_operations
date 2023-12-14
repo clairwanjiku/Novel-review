@@ -1,0 +1,115 @@
+from sqlalchemy.orm import Session
+from models import Customer, Novel, Review, engine
+
+# Create a global session
+session = Session(bind=engine)
+
+# Function to create a new customer
+def create_customer(first_name, last_name):
+    new_customer = Customer(first_name=first_name, last_name=last_name)
+    session.add(new_customer)
+    session.commit()
+    print(f"Customer {first_name} {last_name} created successfully!")
+
+# Function to view a list of all customers with their IDs
+def view_customers():
+    customers = session.query(Customer).all()
+    for customer in customers:
+        print(f"Customer ID: {customer.id}, Name: {customer.first_name} {customer.last_name}")
+
+# Function to update customer details
+def update_customer(customer_id, new_first_name, new_last_name):
+    customer = session.query(Customer).get(customer_id)
+    if customer:
+        customer.first_name = new_first_name
+        customer.last_name = new_last_name
+        session.commit()
+        print(f"Customer {customer_id} updated successfully!")
+    else:
+        print(f"Customer with ID {customer_id} not found.")
+
+# Function to delete a customer
+def delete_customer(customer_id):
+    customer = session.query(Customer).get(customer_id)
+    if customer:
+        session.delete(customer)
+        session.commit()
+        print(f"Customer {customer_id} deleted successfully!")
+    else:
+        print(f"Customer with ID {customer_id} not found.")
+
+# Function to add a review to a novel
+def add_review(customer_id, novel_id, star_rating):
+    new_review = Review(customer_id=customer_id, novel_id=novel_id, star_rating=star_rating)
+    session.add(new_review)
+    session.commit()
+    print(f"Review added successfully!")
+
+# Function to view all novels a customer has reviewed with name and author
+def view_customer_reviews(customer_id):
+    customer = session.query(Customer).get(customer_id)
+    if customer:
+        reviews = session.query(Review).filter_by(customer_id=customer_id).all()
+        for review in reviews:
+            novel = review.novel
+            print(f"Novel ID: {novel.id}, Name: {novel.name}, Author: {novel.author}")
+    else:
+        print(f"Customer with ID {customer_id} not found.")
+
+# Function to view all novels in the library
+def view_all_novels():
+    novels = session.query(Novel).all()
+    for novel in novels:
+        print(f"Novel ID: {novel.id}, Name: {novel.name}, Author: {novel.author}, Genre: {novel.genre}")
+
+def view_all_reviews():
+    reviews = session.query(Review).all()
+    for review in reviews:
+        print(f"Review ID: {review.id}, Novel: {review.novel}, Star Rating: {review.star_rating} by Customer: {review.customer} ")
+
+# Function to update a review
+def update_review(review_id, new_star_rating):
+    review = session.query(Review).get(review_id)
+    if review:
+        review.star_rating = new_star_rating
+        session.commit()
+        print(f"Review {review_id} updated successfully!")
+    else:
+        print(f"Review with ID {review_id} not found.")
+
+# Function to delete a review
+def delete_review(review_id):
+    review = session.query(Review).get(review_id)
+    if review:
+        session.delete(review)
+        session.commit()
+        print(f"Review {review_id} deleted successfully!")
+    else:
+        print(f"Review with ID {review_id} not found.")
+def find_user_by_id(user_id):
+    user = session.query(Customer).get(user_id)
+    if user:
+        print(f"User found - ID: {user.id}, Name: {user.first_name} {user.last_name}")
+    else:
+        print(f"User with ID {user_id} not found.")
+
+# Function to find a novel by ID
+def find_novel_by_id(novel_id):
+    novel = session.query(Novel).get(novel_id)
+    if novel:
+        print(f"Novel found - ID: {novel.id}, Name: {novel.name}, Author: {novel.author}, Genre: {novel.genre}")
+    else:
+        print(f"Novel with ID {novel_id} not found.")
+
+# Function to find a review by ID
+def find_review_by_id(review_id):
+    review = session.query(Review).get(review_id)
+    if review:
+        print(f"Review found - ID: {review.id}, Star Rating: {review.star_rating}")
+        print(f"Novel: {review.novel.name}, Author: {review.novel.author}")
+        print(f"Customer: {review.customer.first_name} {review.customer.last_name}")
+    else:
+        print(f"Review with ID {review_id} not found.")
+
+
+session.close()
