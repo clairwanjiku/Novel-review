@@ -1,5 +1,31 @@
-Novel Library CLI
+## Novel Library CLI
 This CLI application allows users to interact with a novel library database, manage customers, novels, reviews, and perform various operations through a command-line interface.
+
+### Utilize an algorithm from the Data Structures and Algorithms module within the CLI functionality.
+Usage
+CLI Commands
+create_customer: Create a new customer.
+view_customers: View a list of all customers.
+update_customer: Update customer details.
+delete_customer: Delete a customer.
+add_review: Add a review to a novel.
+view_customer_reviews: View all novels a customer has reviewed.
+view_all_novels: View all novels in the library.
+view_all_reviews: View all reviews in the database.
+update_review: Update a review.
+delete_review: Delete a review.
+find_user_by_id: Find a user by ID.
+find_novel_by_id: Find a novel by ID.
+find_review_by_id: Find a review by ID.
+close_session: Close the session.
+## Example Commands
+To PERFORM AN EXECUTION:  python3 main.py <CLI COMMAND>
+
+
+
+
+### HOW IT WORKS ####
+For a customer to review  a book they have to be have added to the system and a book needs to be in the data as well. for a customer/reader to review a book they need to know the id of the novel and their id as well.
 
 ###### Learning Goals #######
 Configure environments with project-specific parameters using Pipenv.
@@ -10,7 +36,7 @@ Incorporate algorithms from Data Structures and Algorithms (DSA) module.
 Apply best practices in CLI design and maintain a well-structured codebase.
 Installation and Setup
 
-Clone the repository.
+### Clone the repository.
 Install dependencies using Pipenv:
 #pipenv install
 
@@ -30,25 +56,6 @@ View and update reviews provided by customers.
 Search for users, novels, or reviews by their respective IDs.
 Algorithm Implementation
 
-Utilize an algorithm from the Data Structures and Algorithms module within the CLI functionality.
-Usage
-CLI Commands
-create_customer: Create a new customer.
-view_customers: View a list of all customers.
-update_customer: Update customer details.
-delete_customer: Delete a customer.
-add_review: Add a review to a novel.
-view_customer_reviews: View all novels a customer has reviewed.
-view_all_novels: View all novels in the library.
-view_all_reviews: View all reviews in the database.
-update_review: Update a review.
-delete_review: Delete a review.
-find_user_by_id: Find a user by ID.
-find_novel_by_id: Find a novel by ID.
-find_review_by_id: Find a review by ID.
-close_session: Close the session.
-Example Commands
-To create a customer:
 
 
 
@@ -111,7 +118,7 @@ class Novel(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     # Relationships
-    reviews = relationship('Review', back_populates='novel')
+    reviews = relationship('Review', back_populates='novel') 
 
 class Review(Base):
     __tablename__ = 'reviews'
